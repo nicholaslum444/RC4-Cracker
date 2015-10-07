@@ -1,0 +1,4 @@
+input/*
+
+!input/gen.C
+!input/rc4.C
