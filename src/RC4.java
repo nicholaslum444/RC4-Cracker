@@ -10,6 +10,13 @@ public class RC4 {
 	private static final int NUM_FILES = 60; // MANAGED TO RUN UNTIL 39... 40 INCOMPLETE
 	private static final String INPUT_FILENAME_FORMAT = "input/A%02d.data";
 	private static final String OUTPUT_FILENAME_FORMAT = "output/A%02d.out";
+	private static final String KEY_FILENAME_FORMAT = "keys/A%02d.key";
+	
+	// shell script format 
+	// ./rc4 0 8  5000000  0   56  28  64  72  64 > A00.data
+	private static final int[] KEY_LENGTH_ARRAY = {8, 10, 12, 14, 16, 18};
+	private static final int[] NUM_TUPLES_ARRAY = {5000000, 3000000, 2000000, 1500000, 1000000, 750000, 500000, 300000, 200000, 100000}; 
+	private static final String SCRIPT_FORMAT = "./rc4 0 %d %d %d %s > A%02d.data.mine";
 	
 	private static final int EXACT_FILE_NUMBER = 9; 
 	
@@ -40,6 +47,7 @@ public class RC4 {
 			BufferedInputStream fs = new BufferedInputStream(new FileInputStream(String.format(INPUT_FILENAME_FORMAT, ii)));
 			System.out.printf("Writing to file: " + OUTPUT_FILENAME_FORMAT + "\n", ii);
 			BufferedWriter bw = new BufferedWriter(new FileWriter(String.format(OUTPUT_FILENAME_FORMAT, ii)));
+			BufferedWriter keybw = new BufferedWriter(new FileWriter(String.format(KEY_FILENAME_FORMAT, ii)));
 			
 			bw.write("|-- BEGIN --------------------- " + String.format(INPUT_FILENAME_FORMAT, ii) + " -----------------------|\n");
 			bw.write(Calendar.getInstance().getTime().toString() + "\n");
@@ -70,6 +78,9 @@ public class RC4 {
 				System.out.println("finished " + c);
 			}
 			
+			String keyString = getKeyString(k);
+			keybw.write(keyString);
+			
 			bw.write("Final Key = " + Arrays.toString(k) + "\n");
 			
 			bw.write(Calendar.getInstance().getTime().toString() + "\n");
@@ -79,6 +90,8 @@ public class RC4 {
 			fs.close();
 			bw.flush();
 			bw.close();
+			keybw.flush();
+			keybw.close();
 			System.out.println("End");
 		}
 	}
@@ -172,6 +185,7 @@ public class RC4 {
 	}
 
 	private void readTuples(BufferedInputStream fs) throws IOException {
+		tuples = new ArrayList<byte[]>();
 		for (int i = 0; i < T; i++) {
 			byte[] tuple = new byte[4];
 			int bytesRead = fs.read(tuple);
@@ -190,6 +204,15 @@ public class RC4 {
 	
 	
 	// ------- helper methods
+	
+	private String getKeyString(int[] k) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 3; i < k.length - 1; i++) {
+			sb.append(k[i] + " ");
+		}
+		sb.append(k[k.length - 1]);
+		return sb.toString();
+	}
 	
 	private int getMax(int[] freq) {
 		int highest = 0;
@@ -252,10 +275,10 @@ public class RC4 {
 	    return sb.toString();
 	}
 	
-	private void p(Object o) {
-		if (DEBUG) {
-			System.out.println(o);
-		}
+	private String getShellScript(int[] k) {
+		
+		
+		return "";
 	}
 
 	
