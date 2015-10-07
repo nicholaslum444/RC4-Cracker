@@ -1,4 +1,5 @@
-input/*
+input/
+decoded/
 
 !input/gen.C
 !input/rc4.C

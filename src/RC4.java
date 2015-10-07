@@ -7,16 +7,10 @@ import java.util.*;
 public class RC4 {
 	private static final boolean DEBUG = false;
 	
-	private static final int NUM_FILES = 60; // MANAGED TO RUN UNTIL 39... 40 INCOMPLETE
+	private static final int NUM_FILES = 60; 
 	private static final String INPUT_FILENAME_FORMAT = "input/A%02d.data";
 	private static final String OUTPUT_FILENAME_FORMAT = "output/A%02d.out";
 	private static final String KEY_FILENAME_FORMAT = "keys/A%02d.key";
-	
-	// shell script format 
-	// ./rc4 0 8  5000000  0   56  28  64  72  64 > A00.data
-	private static final int[] KEY_LENGTH_ARRAY = {8, 10, 12, 14, 16, 18};
-	private static final int[] NUM_TUPLES_ARRAY = {5000000, 3000000, 2000000, 1500000, 1000000, 750000, 500000, 300000, 200000, 100000}; 
-	private static final String SCRIPT_FORMAT = "./rc4 0 %d %d %d %s > A%02d.data.mine";
 	
 	private static final int EXACT_FILE_NUMBER = 9; 
 	
@@ -122,12 +116,10 @@ public class RC4 {
 			// run ksa for C times
 			int j = 0;
 			for (int i = 0; i < c; i++) {
-				
 				j = (int) ((j + s[i] + k[i]) % N);
 				int temp = s[j];
 				s[j] = s[i];
 				s[i] = temp;
-				
 			}
 			
 			// check the condition
@@ -273,12 +265,6 @@ public class RC4 {
 	    sb.append(String.format("%d: %d", freq.length - 1, freq[freq.length - 1]));
 	    sb.append("]");
 	    return sb.toString();
-	}
-	
-	private String getShellScript(int[] k) {
-		
-		
-		return "";
 	}
 
 	

@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <stdio.h>
 using namespace std;
 
 const int N =160;     // must be <= 256   for higher value, use version 2 rc4v2.c
